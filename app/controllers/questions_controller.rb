@@ -34,6 +34,8 @@ class QuestionsController < ApplicationController
 
   private
 
+  helper_method :question
+
   def question
     @question ||= params[:id] ? Question.find(params[:id]) : Question.new
   end

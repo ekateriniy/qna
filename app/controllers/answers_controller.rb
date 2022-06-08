@@ -15,6 +15,8 @@ class AnswersController < ApplicationController
 
   private
 
+  helper_method :answer, :question
+
   def answer
     @answer ||= params[:id] ? Answer.find(params[:id]) : question.answers.new
   end
