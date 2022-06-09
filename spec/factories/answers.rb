@@ -1,12 +1,10 @@
 FactoryBot.define do
   factory :answer do
     association :question
-
-    title { "AnswerTitle" }
     body { "AnswerBody" }
 
     trait :invalid do
-      title { nil }
+      body { nil }
     end
   end
 end
