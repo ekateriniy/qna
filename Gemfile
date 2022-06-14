@@ -22,6 +22,9 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
+# UI
+gem 'bootstrap', '~> 5.1.3'
+
 # ex-default gems to work with emails
 gem 'net-imap'
 gem 'net-smtp'
