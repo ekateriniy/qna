@@ -1,9 +1,11 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, only: :create
+
   def create
     @answer = question.answers.new(answer_params)
 
     if @answer.save
-      redirect_to question_path(@answer.question)
+      redirect_to question_path(question), notice: 'Your answer successfully posted'
     else
       render 'questions/show'
     end
