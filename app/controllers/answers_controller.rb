@@ -1,10 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
 
-  # def show
-  #   answer
-  # end
-
   def create
     @answer = question.answers.new(answer_params)
     @answer.author = current_user
