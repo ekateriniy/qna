@@ -3,7 +3,7 @@ FactoryBot.define do
     "user#{n}@test.com"
   end
 
-  factory :user do
+  factory :user, aliases: [:author] do
     email
     password { '1234567890' }
     password_confirmation { '1234567890' }

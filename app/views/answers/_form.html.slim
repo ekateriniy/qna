@@ -1,6 +1,6 @@
 = render 'shared/errors', resource: @answer 
 
-h2 Your answer
+h4 Your answer
 = form_with model: [question, question.answers.build], local: true do |f|
   div.field
     = f.label :body

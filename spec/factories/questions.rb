@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory :question do
+    author
     title { "MyString" }
     body { "MyText" }
 

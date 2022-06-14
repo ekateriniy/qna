@@ -5,5 +5,6 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-question = Question.create!([{ title: 'title of q1', body: 'body of q1' }, { title: 'title of q2', body: 'body of q2' }])
-answer = Question.first.answers.create!([{ body: 'body of a1' }, { body: 'body of a2' }])
+user = User.create!(email: '123@test.com', password: '1234567890')
+question = Question.create!([{ title: 'title of q1', body: 'body of q1', author: user }, { title: 'title of q2', body: 'body of q2', author: user }])
+answer = Question.first.answers.create!([{ body: 'body of a1', author: user }, { body: 'body of a2', author: user }])
