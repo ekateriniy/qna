@@ -6,7 +6,7 @@ class AnswersController < ApplicationController
     @answer.author = current_user
 
     if @answer.save
-      redirect_to question_path(question), notice: 'Your answer successfully posted'
+      redirect_to question_path(params[:question_id]), notice: 'Your answer successfully posted'
     else
       render 'questions/show', locals: { question: question }
     end
@@ -14,7 +14,7 @@ class AnswersController < ApplicationController
 
   def destroy
     answer.destroy
-    redirect_to question_path(answer.question)
+    redirect_to question_path(answer.question_id)
   end
 
   private
