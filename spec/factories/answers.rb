@@ -1,6 +1,7 @@
 FactoryBot.define do
   factory :answer do
-    association :question
+    author
+    question
     body { "AnswerBody" }
 
     trait :invalid do
