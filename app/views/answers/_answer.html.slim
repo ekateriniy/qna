@@ -1,0 +1,6 @@
+table
+  tr
+    td= answer.body
+  tr
+    td= link_to 'Delete', answer_path(answer), method: :delete if current_user&.owner?(answer)
+    

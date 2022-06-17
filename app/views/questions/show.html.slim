@@ -1,5 +1,6 @@
 h1= question.title
 p= question.body
 br
-= render 'answers/list'
+.answers
+  = render question.answers
 = render 'answers/form'

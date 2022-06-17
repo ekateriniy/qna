@@ -1,0 +1,8 @@
+div class="alert"
+  - flash.each do |key, _message|
+    - if key == 'alert'
+      div class="alert-danger" role="alert"
+        = flash_message(key)
+    - else
+      div class="alert-success" role="alert"
+        = flash_message(key)

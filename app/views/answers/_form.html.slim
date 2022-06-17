@@ -1,7 +1,8 @@
-= render 'shared/errors', resource: @answer 
+.answer-errors
+  = render 'shared/errors', resource: @answer 
 
 h4 Your answer
-= form_with model: [question, question.answers.build], local: true do |f|
+= form_with model: [question, question.answers.build], local: false do |f|
   div.field
     = f.label :body
     br

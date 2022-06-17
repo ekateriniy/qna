@@ -24,6 +24,7 @@ gem 'jbuilder', '~> 2.7'
 
 # UI
 gem 'bootstrap', '~> 5.1.3'
+gem 'jquery-rails'
 
 # ex-default gems to work with emails
 gem 'net-imap'

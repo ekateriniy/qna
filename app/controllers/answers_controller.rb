@@ -4,12 +4,7 @@ class AnswersController < ApplicationController
   def create
     @answer = question.answers.new(answer_params)
     @answer.author = current_user
-
-    if @answer.save
-      redirect_to question_path(params[:question_id]), notice: 'Your answer successfully posted'
-    else
-      render 'questions/show', locals: { question: question }
-    end
+    @answer.save
   end
 
   def destroy
