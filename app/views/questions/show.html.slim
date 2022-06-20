@@ -1,6 +1,23 @@
 = link_to 'Back to all questions', questions_path
-h1= question.title
-p= question.body
+
+.question
+  .question-error
+  = render 'shared/errors', resource: question
+
+  h1 id="question-title"= question.title
+  p id="question-body"= question.body
+  - if current_user&.owner?(question)
+    = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
+    = form_with model: question, class: 'hide', local: false, html: { id: "edit-question" } do |f|
+        = f.label :title
+        br
+        = f.text_field :title
+        = f.label :body
+        br
+        = f.text_area :body
+        = f.submit 'Save'
+    = ' | '
+    = link_to 'Delete', question_path(question), method: :delete
 br
 .answers
   = render question.answers

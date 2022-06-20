@@ -5,9 +5,9 @@ feature 'User can edit his question', %q{
   As an author of the question
   I'd like to be able to edit my question
 } do
-  given!(:user) { create(:user) }
-  given(:other_user) { create(:user) }
+  given(:user) { create(:user) }
   given!(:question) { create(:question, author: user) }
+  given(:other_user) { create(:user) }
 
   scenario 'Unauthenticated user can not edit the question' do
     visit question_path(question)
@@ -18,7 +18,7 @@ feature 'User can edit his question', %q{
   scenario "Authenticated user can not edit other user's question" do
     sign_in(other_user)
     visit question_path(question)
-
+  
     expect(find('.question')).to_not have_link 'Edit'
   end
 
@@ -52,7 +52,6 @@ feature 'User can edit his question', %q{
 
         expect(page).to have_content question.title
         expect(page).to have_content question.body
-        expect(page).to have_selector 'textarea'
         expect(page).to have_content "Title can't be blank"
         expect(page).to have_content "Body can't be blank"
       end

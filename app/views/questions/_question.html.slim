@@ -1,8 +1,0 @@
-tr
-  td class="h4"
-    = link_to question.title, question_path(question)
-tr
-  td= question.body
-tr
-  td= link_to 'Delete', question_path(question), method: :delete if current_user&.owner?(question)
-  

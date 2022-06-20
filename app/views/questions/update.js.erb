@@ -1,0 +1,10 @@
+$('.question-error').html('<%= render 'shared/errors', resource: @question %>');
+
+<% if @question.errors.present? %>
+  $('form#edit-question').removeClass('hide');
+  $('form#question-title').html('<%= j @question.title %>');
+  $('form#question-body').html('<%= j @question.body %>');
+<% else %>
+  $('#question-title').html('<%= j @question.title %>');
+  $('#question-body').html('<%= j @question.body %>');
+<% end %>
