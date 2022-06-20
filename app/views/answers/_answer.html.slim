@@ -1,6 +1,14 @@
-table
-  tr
-    td= answer.body
-  tr
-    td= link_to 'Delete', answer_path(answer), method: :delete if current_user&.owner?(answer)
-    
+div id="answer-body-#{answer.id}"
+  div class='answer-errors-#{answer.id}'
+      = render 'shared/errors', resource: @answer
+  = answer.body
+  br
+  - if current_user&.owner?(answer)
+    = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+    = form_with model: answer, class: 'hide', local: false, html: { id: "edit-answer-#{answer.id}" } do |f|
+      = f.label :body
+      br
+      = f.text_area :body
+      = f.submit 'Save'
+    = ' | '
+    = link_to 'Delete', answer_path(answer), method: :delete

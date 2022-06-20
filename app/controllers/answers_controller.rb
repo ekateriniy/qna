@@ -7,6 +7,11 @@ class AnswersController < ApplicationController
     @answer.save
   end
 
+  def update
+    @question = answer.question
+    answer.update(answer_params)
+  end
+
   def destroy
     answer.destroy
     redirect_to question_path(answer.question_id)
