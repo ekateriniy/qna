@@ -19,6 +19,8 @@
     = ' | '
     = link_to 'Delete', question_path(question), method: :delete
 br
-.answers
-  = render question.answers
+.best-answer style="background-color:AliceBlue;"
+  = render 'answers/best_answer', resource: @best_answer if @best_answer
+.answers  
+  = render partial: 'answers/answer', collection: @answers
 = render 'answers/form'

@@ -5,7 +5,10 @@ class QuestionsController < ApplicationController
     @questions = Question.all
   end
 
-  def show; end
+  def show
+    @best_answer = question.best_answer
+    @answers = question.answers.where.not(id: question.best_answer_id)
+  end
 
   def new; end
 
@@ -29,6 +32,12 @@ class QuestionsController < ApplicationController
   def destroy
     question.destroy
     redirect_to questions_path
+  end
+
+  def update_best_answer
+    question.set_best_answer(params[:answer_id])
+    @best_answer = question.best_answer
+    @answers = question.answers.where.not(id: question.best_answer_id)
   end
 
   private
