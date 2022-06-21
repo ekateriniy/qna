@@ -11,4 +11,4 @@ div id="answer-body-#{answer.id}"
       = f.text_area :body
       = f.submit 'Save'
     = ' | '
-    = link_to 'Delete', answer_path(answer), method: :delete
+    = link_to 'Delete', answer_path(answer), method: :delete, local: false, remote: true, class: 'delete-answer-link', data: { answer_id: answer.id }
