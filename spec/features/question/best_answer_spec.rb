@@ -7,7 +7,6 @@ feature 'Question author can mark an answer as the best', %q{
 } do
   given!(:user) { create(:user) }
   given!(:question) { create(:question, author: user) }
-  given!(:answers) { create_list(:answer, 2, question: question) }
   given(:other_user) { create(:user) }
 
   describe 'The question author', js: true do
