@@ -2,4 +2,9 @@ $('.answer-errors-<%= @answer.id %>').html('<%= render 'shared/errors', resource
 
 <% unless @answer.errors.present? %>
   $('#answer-body-<%= @answer.id %>').html('<%= j render partial: "answer", locals: { answer: @answer } %>');
+
+  $('#answer-atached-<%= @answer.id %>').empty()
+  <% @answer.files.each do |file| %>
+    $('<%= j link_to file.filename.to_s, url_for(file) %><br>').appendTo('#answer-atached-<%= @answer.id %>')
+  <% end %>
 <% end %>

@@ -8,9 +8,10 @@ div id="answer-body-#{@best_answer.id}"
     td
       = @best_answer.body
 
+  div id="answer-atached-#{@best_answer.id}"
   - if @best_answer.files.attached?
-  - @best_answer.files.each do |file|
-    p= link_to file.filename.to_s, url_for(file)
+    - @best_answer.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
   br
   - if current_user&.owner?(@best_answer)
     = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: @best_answer.id }
@@ -18,6 +19,11 @@ div id="answer-body-#{@best_answer.id}"
       = f.label :body
       br
       = f.text_area :body
+      br
+      = f.label :files
+      br
+      = f.file_field :files, multiple: true
+      br
       = f.submit 'Save'
     = ' | '
     = link_to 'Delete', answer_path(@best_answer), method: :delete, local: false, remote: true, class: 'delete-answer-link', data: { answer_id: @best_answer.id }
