@@ -6,6 +6,10 @@
 
   h1 id="question-title"= question.title
   p id="question-body"= question.body
+  - if question.files.attached?
+    - question.files.each do |file|
+      p= link_to file.filename.to_s, url_for(file)
+
   - if current_user&.owner?(question)
     = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     = form_with model: question, class: 'hide', local: false, html: { id: "edit-question" } do |f|
