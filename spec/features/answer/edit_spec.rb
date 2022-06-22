@@ -31,13 +31,16 @@ feature 'User can edit his answer', %q{
       click_on 'Edit'
     end
 
-    scenario 'edits his answer' do
+    scenario 'edits his answer ' do
       within '.answers' do
         fill_in 'Body', with: 'edited answer'
+        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"], multiple: true
         click_on 'Save'
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
         expect(page).to_not have_selector 'textarea'
       end
     end
