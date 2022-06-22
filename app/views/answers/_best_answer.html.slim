@@ -1,0 +1,21 @@
+div id="answer-body-#{@best_answer.id}" 
+  div class='answer-errors-#{@best_answer.id}'
+      = render 'shared/errors', resource: @best_answer
+  tr
+    td
+      = octicon 'star'
+    td= ' '
+    td
+      = @best_answer.body
+
+  br
+  - if current_user&.owner?(@best_answer)
+    = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: @best_answer.id }
+    = form_with model: @best_answer, class: 'hide', local: false, html: { id: "edit-answer-#{@best_answer.id}" } do |f|
+      = f.label :body
+      br
+      = f.text_area :body
+      = f.submit 'Save'
+    = ' | '
+    = link_to 'Delete', answer_path(@best_answer), method: :delete, local: false, remote: true, class: 'delete-answer-link', data: { answer_id: @best_answer.id }
+br

@@ -1,0 +1,20 @@
+div id="answer-body-#{answer.id}"
+  div class='answer-errors-#{answer.id}'
+      = render 'shared/errors', resource: @answer
+
+  = answer.body
+  br
+  .actions
+    - if current_user&.owner?(question)
+      = link_to 'Best answer', update_best_answer_question_path(question, answer_id: answer.id), class: 'best-answer-link', answer_id: answer.id, local: false, method: :patch, action: :update_best_answer, remote: true
+    br
+    - if current_user&.owner?(answer)
+      = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      = form_with model: answer, class: 'hide', local: false, html: { id: "edit-answer-#{answer.id}" } do |f|
+        = f.label :body
+        br
+        = f.text_area :body
+        = f.submit 'Save'
+      = ' | '
+      = link_to 'Delete', answer_path(answer), method: :delete, local: false, remote: true, class: 'delete-answer-link', data: { answer_id: answer.id }
+br

@@ -11,7 +11,7 @@ feature 'User can delete written question', %q{
 
   scenario 'Authenticated user tries to delete written by him question' do
     sign_in(user)
-    visit questions_path
+    visit question_path(question)
 
     click_on 'Delete'
 
@@ -20,7 +20,7 @@ feature 'User can delete written question', %q{
 
   scenario 'Authenticated user tries to delete not written by him answer' do
     sign_in(another_user)
-    visit questions_path
+    visit question_path(question)
 
     expect(page).to_not have_content 'Delete'
   end

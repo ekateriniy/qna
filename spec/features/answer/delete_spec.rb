@@ -10,19 +10,20 @@ feature 'User can delete written answer', %q{
   given!(:answer) { create(:answer, question: question, author: user) }
   given(:another_user) { create(:user) }
 
-  scenario 'Authenticated user tries to delete written by him answer' do
+  scenario 'Authenticated user tries to delete written by him answer', js: true do
     sign_in(user)
     visit question_path(question)
 
-    click_on 'Delete'
-
-    expect(page).to_not have_content answer.body
+    within '.answers' do
+      click_on 'Delete'
+      expect(page).to_not have_content answer.body
+    end
   end
 
   scenario 'Authenticated user tries to delete not written by him answer' do
     sign_in(another_user)
     visit question_path(question)
 
-    expect(page).to_not have_content 'Delete'
+    expect(find('.answers')).to_not have_content 'Delete'
   end
 end

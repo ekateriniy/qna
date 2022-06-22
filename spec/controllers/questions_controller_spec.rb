@@ -36,15 +36,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    before { login(user) }
-    before { get :edit, params: { id: question } }
-
-    it 'renders edit view' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
     before { login(user) }
 
@@ -73,42 +64,56 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'PATCH #update' do
     before { login(user) }
+    let!(:question) { create(:question) }
 
     context 'with valid attributes' do
-      it 'assigns the requested question to @question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
-
-        expect(assigns(:question)).to eq question
-      end
-
       it 'changes question attributes' do
-        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }
-        question.reload
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
 
-        expect(question.title).to eq 'new title'
+        question.reload
         expect(question.body).to eq 'new body'
+        expect(question.title).to eq 'new title'
       end
 
-      it 'redirects to updated question' do
-        patch :update, params: { id: question, question: attributes_for(:question) }
+      it 'renders update view' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
 
-        expect(response).to redirect_to question
+        expect(response).to render_template :update
       end
     end
 
     context 'with invalid attributes' do
-      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) } }
+      before { patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js }
       
-      it 'does not change question' do
+      it 'does not change question attributes' do
         question.reload
 
         expect(question.title).to eq 'MyString'
         expect(question.body).to eq 'MyText'
       end
 
-      it 're-renders edit view' do
-        expect(response).to render_template :edit
+      it 'renders update view' do
+        expect(response).to render_template :update
       end
+    end
+  end
+
+  describe 'PATCH #update_best_answer' do
+    before { login(user) }
+    let!(:question) { create(:question, author: user) }
+    let!(:answers) { create_list(:answer, 2, question: question) }
+
+    it 'updates question best answer' do
+      patch :update_best_answer, params: { id: question, answer_id: answers[0] }, format: :js
+
+        question.reload
+        expect(question.best_answer).to eq answers[0]
+    end
+
+    it 'renders update_best_answer view' do
+      patch :update_best_answer, params: { id: question, answer_id: answers[0] }, format: :js
+
+      expect(response).to render_template :update_best_answer
     end
   end
 
