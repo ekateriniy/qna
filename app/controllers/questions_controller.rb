@@ -6,8 +6,12 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @best_answer = question.best_answer&.with_attached_files
-    @answers = question.answers.where.not(id: question.best_answer_id)&.with_attached_files.offset(100)
+    if @best_answer
+      @best_answer = question.best_answer&.with_attached_files
+      @answers = question.answers.where.not(id: question.best_answer.id)&.with_attached_files
+    else
+      @answers = question.answers&.with_attached_files
+    end
   end
 
   def new; end
