@@ -10,6 +10,6 @@ h4 Your answer
   div.field
     = f.label :files
     br
-    = f.file_field :files, multiple: true
+    = f.file_field :files, multiple: true, direct_upload: true
   div.actions
     = f.submit 'Post answer'

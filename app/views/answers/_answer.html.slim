@@ -25,7 +25,7 @@ div id="answer-body-#{answer.id}"
         br
         = f.label :files
         br
-        = f.file_field :files, multiple: true
+        = f.file_field :files, multiple: true, direct_upload: true
         br
         = f.submit 'Save'
       = ' | '
