@@ -7,7 +7,7 @@ feature 'User can edit his answer', %q{
 } do
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
-  given!(:answer) { create(:answer, question: question, author: user) }
+  given!(:answer) { create(:answer, :with_file, question: question, author: user) }
   given(:other_user) { create(:user) }
 
   scenario 'Unauthenticated user can not edit the answer' do
@@ -31,15 +31,18 @@ feature 'User can edit his answer', %q{
       click_on 'Edit'
     end
 
-    scenario 'edits his answer ' do
+    scenario 'edits his answer' do
       within '.answers' do
         fill_in 'Body', with: 'edited answer'
-        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"], multiple: true
+        attach_file 'Files', ["#{Rails.root}/README.md", "#{Rails.root}/spec/spec_helper.rb"], multiple: true
+
+        find('.octicon').click
         click_on 'Save'
 
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
-        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to_not have_content answer.files
+        expect(page).to have_link 'README.md'
         expect(page).to have_link 'spec_helper.rb'
         expect(page).to_not have_selector 'textarea'
       end

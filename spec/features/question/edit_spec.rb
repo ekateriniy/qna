@@ -6,7 +6,7 @@ feature 'User can edit his question', %q{
   I'd like to be able to edit my question
 } do
   given(:user) { create(:user) }
-  given!(:question) { create(:question, author: user) }
+  given!(:question) { create(:question, :with_file, author: user) }
   given(:other_user) { create(:user) }
 
   scenario 'Unauthenticated user can not edit the question' do
@@ -34,17 +34,19 @@ feature 'User can edit his question', %q{
       within '.question' do
         fill_in 'Title', with: 'edited title'
         fill_in 'Body', with: 'edited body'
-        attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"], multiple: true
+        attach_file 'Files', ["#{Rails.root}/README.md", "#{Rails.root}/spec/spec_helper.rb"], multiple: true
+        find('.octicon').click
 
         click_on 'Save'
       end
 
       expect(page).to_not have_content question.title
       expect(page).to_not have_content question.body
+      expect(page).to_not have_content question.files
       expect(page).to have_content 'edited title'
       expect(page).to have_content 'edited body'
-      expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+      expect(page).to have_link 'README.md'
       expect(find('.question')).to_not have_selector 'textarea'
     end
 
