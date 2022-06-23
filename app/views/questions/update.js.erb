@@ -7,8 +7,12 @@ $('.question-error').html('<%= render 'shared/errors', resource: @question %>');
 <% else %>
   $('#question-title').html('<%= j @question.title %>');
   $('#question-body').html('<%= j @question.body %>');
+  
   $('#question-atached').empty()
   <% @question.files.each do |file| %>
-    $('<%= j link_to file.filename.to_s, url_for(file) %><br>').appendTo('#question-atached')
+    $(' <%= link_to active_storage_attachment_path(file), class: "hide delete-question-atached", method: :delete, local: false, remote: true do; octicon 'x'; end %>  ').appendTo('#question-atached')
+
+  $('<%= j link_to file.filename.to_s, url_for(file) %><br>').appendTo('#question-atached')
   <% end %>
 <% end %>
+

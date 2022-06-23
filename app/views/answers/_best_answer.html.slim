@@ -11,7 +11,11 @@ div id="answer-body-#{@best_answer.id}"
   div id="answer-atached-#{@best_answer.id}"
   - if @best_answer.files.attached?
     - @best_answer.files.each do |file|
-      p= link_to file.filename.to_s, url_for(file)
+      div id="attachment-#{file.id}"
+            = link_to active_storage_attachment_path(file), class: "hide delete-answer-atached-#{@best_answer.id}", method: :delete, local: false, remote: :true do
+              = octicon 'x' 
+            = ' '
+            = link_to file.filename.to_s, url_for(file)
   br
   - if current_user&.owner?(@best_answer)
     = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: @best_answer.id }

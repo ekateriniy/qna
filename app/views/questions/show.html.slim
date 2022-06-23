@@ -9,9 +9,12 @@
   div id="question-atached"
     - if question.files.attached?
       - question.files.each do |file|
-        = link_to file.filename.to_s, url_for(file)
-        br
-
+        div id="attachment-#{file.id}"
+            = link_to active_storage_attachment_path(file), class: "hide delete-question-atached", method: :delete, local: false, remote: :true do
+              = octicon 'x' 
+            = ' '
+            = link_to file.filename.to_s, url_for(file)
+  br
   - if current_user&.owner?(question)
     = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     = form_with model: question, class: 'hide', local: false, html: { id: "edit-question" } do |f|
