@@ -8,6 +8,14 @@ div id="answer-body-#{@best_answer.id}"
     td
       = @best_answer.body
 
+  div id="answer-atached-#{@best_answer.id}"
+  - if @best_answer.files.attached?
+    - @best_answer.files.each do |file|
+      div id="attachment-#{file.id}"
+            = link_to active_storage_attachment_path(file), class: "hide delete-answer-atached-#{@best_answer.id}", method: :delete, local: false, remote: :true do
+              = octicon 'x' 
+            = ' '
+            = link_to file.filename.to_s, url_for(file)
   br
   - if current_user&.owner?(@best_answer)
     = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: @best_answer.id }
@@ -15,6 +23,11 @@ div id="answer-body-#{@best_answer.id}"
       = f.label :body
       br
       = f.text_area :body
+      br
+      = f.label :files
+      br
+      = f.file_field :files, multiple: true, direct_upload: true
+      br
       = f.submit 'Save'
     = ' | '
     = link_to 'Delete', answer_path(@best_answer), method: :delete, local: false, remote: true, class: 'delete-answer-link', data: { answer_id: @best_answer.id }

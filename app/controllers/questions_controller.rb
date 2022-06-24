@@ -6,8 +6,12 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    @best_answer = question.best_answer
-    @answers = question.answers.where.not(id: question.best_answer_id)
+    if @best_answer
+      @best_answer = question.best_answer&.with_attached_files
+      @answers = question.answers.where.not(id: question.best_answer.id)&.with_attached_files
+    else
+      @answers = question.answers&.with_attached_files
+    end
   end
 
   def new; end
@@ -45,10 +49,10 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def question
-    @question ||= params[:id] ? Question.find(params[:id]) : Question.new
+    @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, files: [])
   end
 end

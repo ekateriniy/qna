@@ -6,6 +6,15 @@
 
   h1 id="question-title"= question.title
   p id="question-body"= question.body
+  div id="question-atached"
+    - if question.files.attached?
+      - question.files.each do |file|
+        div id="attachment-#{file.id}"
+            = link_to active_storage_attachment_path(file), class: "hide delete-question-atached", method: :delete, local: false, remote: :true do
+              = octicon 'x' 
+            = ' '
+            = link_to file.filename.to_s, url_for(file)
+  br
   - if current_user&.owner?(question)
     = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     = form_with model: question, class: 'hide', local: false, html: { id: "edit-question" } do |f|
@@ -15,6 +24,11 @@
         = f.label :body
         br
         = f.text_area :body
+        br
+        = f.label :files
+        br
+        = f.file_field :files, multiple: true, direct_upload: true
+        br
         = f.submit 'Save'
     = ' | '
     = link_to 'Delete', question_path(question), method: :delete

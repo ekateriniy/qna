@@ -4,6 +4,7 @@ $(document).on('turbolinks:load', function(){
     $(this).hide();
     const questionId = $(this).data('questionId');
     $('form#edit-question').removeClass('hide');
+    $('.delete-question-atached').removeClass('hide');
   });
 
   $('.question').on('submit', function(e){

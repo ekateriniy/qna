@@ -7,4 +7,8 @@ Rails.application.routes.draw do
 
     resources :answers, shallow: true, only: [:create, :destroy, :update]
   end
+
+  namespace :active_storage do
+    resources :attachments, only: [:destroy]
+  end
 end
