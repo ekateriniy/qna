@@ -15,14 +15,20 @@ feature 'User can add links to answer', %q{
 
 
     fill_in 'Body', with: 'Test`s body'
-
     fill_in 'Link name', with: 'My gist'
-    fill_in 'Url', with: gist_url
+    click_on 'add link'
 
+    page.all('.nested-fields').each do |field|
+      within(field) do
+        fill_in 'Link name', with: 'My gist'
+        fill_in 'Url', with: gist_url
+      end
+    end
+    
     click_on 'Post answer'
 
     within('.answers') do
-      expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_link 'My gist', href: gist_url, count: 2
     end
   end
 end
