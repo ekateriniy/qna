@@ -8,6 +8,11 @@ div id="answer-body-#{@best_answer.id}"
     td
       = @best_answer.body
 
+  .links
+  p Links:
+  - @best_answer.links.each do |link|
+    li= link_to link.name, link.url
+
   div id="answer-atached-#{@best_answer.id}"
   - if @best_answer.files.attached?
     - @best_answer.files.each do |file|
@@ -27,7 +32,17 @@ div id="answer-body-#{@best_answer.id}"
       = f.label :files
       br
       = f.file_field :files, multiple: true, direct_upload: true
-      br
+      p Links:
+      = f.fields_for :links, @best_answer.links.new, local: false do |l|
+        div.field
+          = l.label :name, 'Link name'
+          br
+          = l.text_field :name
+        div.field
+          = l.label :url
+          br
+          = l.text_field :url
+          br
       = f.submit 'Save'
     = ' | '
     = link_to 'Delete', answer_path(@best_answer), method: :delete, local: false, remote: true, class: 'delete-answer-link', data: { answer_id: @best_answer.id }

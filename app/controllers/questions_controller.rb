@@ -14,7 +14,9 @@ class QuestionsController < ApplicationController
     end
   end
 
-  def new; end
+  def new
+    question.links.new
+  end
 
   def edit; end
 
@@ -46,13 +48,17 @@ class QuestionsController < ApplicationController
 
   private
 
-  helper_method :question
+  helper_method :question, :answer
 
   def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
+  def answer
+    @answer ||= params[:answer_id] ? Answer.with_attached_files.find(params[:answer_id]) : Answer.new
+  end
+
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: [:name, :url])
   end
 end

@@ -3,6 +3,11 @@ div id="answer-body-#{answer.id}"
       = render 'shared/errors', resource: @answer
 
   = answer.body
+  .links
+  p Links:
+  - answer.links.each do |link|
+    li= link_to link.name, link.url
+
   div id="answer-atached-#{answer.id}"
     - if answer.files.attached?
       - answer.files.each do |file|
@@ -26,7 +31,17 @@ div id="answer-body-#{answer.id}"
         = f.label :files
         br
         = f.file_field :files, multiple: true, direct_upload: true
-        br
+        p Links:
+        = f.fields_for :links, answer.links.new, local: false do |l|
+          div.field
+            = l.label :name, 'Link name'
+            br
+            = l.text_field :name
+          div.field
+            = l.label :url
+            br
+            = l.text_field :url
+            br
         = f.submit 'Save'
       = ' | '
       = link_to 'Delete', answer_path(answer), method: :delete, local: false, remote: true, class: 'delete-answer-link', data: { answer_id: answer.id }
