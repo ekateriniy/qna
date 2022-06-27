@@ -12,5 +12,9 @@ FactoryBot.define do
     trait :with_file do
       files { [Rack::Test::UploadedFile.new("#{Rails.root}/spec/rails_helper.rb")] }
     end
+
+    # trait :with_link do
+    #   links { create(:link, name: 'answer link', url: 'answer url') }
+    # end
   end
 end

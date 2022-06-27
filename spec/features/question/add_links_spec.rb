@@ -7,9 +7,11 @@ feature 'User can add links to question', %q{
 } do
   given(:user) { create(:user) }
   given(:gist_url) { 'https://gist.github.com/ekateriniy/2368cfd40e09b995b6be0acc16fe1ffb' }
+  given(:question) { create(:question, author: user) }
 
-  scenario 'User adds links when asks a qiestion', js: true do
-    sign_in(user)
+  background { sign_in(user) }
+
+  scenario 'User adds links when asking a qiestion', js: true do
     visit new_question_path
 
     fill_in 'Title', with: 'Test question'
@@ -25,5 +27,20 @@ feature 'User can add links to question', %q{
     
     click_on 'Ask'
     expect(page).to have_link 'My gist', href: gist_url, count: 2
+  end
+
+  scenario 'User adds link when editing the qiestion', js: true do
+    visit question_path(question)
+
+    within('.question') do
+      click_on 'Edit'
+      click_on 'add link'
+
+      fill_in 'Link name', with: 'My gist'
+      fill_in 'Url', with: gist_url
+      
+      click_on 'Save'
+    end
+    expect(page).to have_link 'My gist', href: gist_url
   end
 end
