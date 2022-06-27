@@ -15,10 +15,10 @@
             = ' '
             = link_to file.filename.to_s, url_for(file)
 
-  .links
-  p Links:
-  - question.links.each do |link|
-    li= link_to link.name, link.url
+  .question-links
+    p Links:
+    - question.links.each do |link|
+      li= link_to link.name, link.url
 
   br
   - if current_user&.owner?(question)

@@ -29,6 +29,9 @@ gem 'bootstrap', '~> 5.1.3'
 gem 'jquery-rails'
 gem 'octicons_helper'
 
+# Works with nested forms
+gem "cocoon"
+
 # ex-default gems to work with emails
 gem 'net-imap'
 gem 'net-smtp'

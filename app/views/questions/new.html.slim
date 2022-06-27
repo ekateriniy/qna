@@ -15,15 +15,9 @@
     = f.file_field :files, multiple: true, direct_upload: true
 
   p Links:
-  = f.fields_for :links do |l|
-    div.field
-      = l.label :name, 'Link name'
-      br
-      = l.text_field :name
-    div.field
-      = l.label :url
-      br
-      = l.text_field :url
-
-  div.actions
-    = f.submit 'Ask'
+  #links
+    = f.fields_for :links do |link|
+      = render 'links/link_fields', f: link
+    .links
+      = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
+  = f.submit 'Ask'
