@@ -7,6 +7,7 @@ $('.question-error').html('<%= render 'shared/errors', resource: @question %>');
 <% else %>
   $('#question-title').html('<%= j @question.title %>');
   $('#question-body').html('<%= j @question.body %>');
+  $('#question-links').html("<%= j render partial: 'links/list', locals: { resource: @question } %>")
   
   $('#question-atached').empty()
   <% @question.files.each do |file| %>

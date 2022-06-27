@@ -8,7 +8,7 @@ div id="answer-body-#{@best_answer.id}"
     td
       = @best_answer.body
 
-  .links
+  .best-answer-links
   p Links:
   - @best_answer.links.each do |link|
     li= link_to link.name, link.url

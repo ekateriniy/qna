@@ -10,6 +10,8 @@ h4 Your answer
   div.field
     = f.label :files
     br
+    = f.file_field :files, multiple: true, direct_upload: true
+    br
   p Links:
   #links
   = f.fields_for :links, answer.links.new, local: false do |link|
