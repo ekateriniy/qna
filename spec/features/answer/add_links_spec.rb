@@ -6,48 +6,82 @@ feature 'User can add links to answer', %q{
   I'd like to be able to add links
 } do
   given(:user) { create(:user) }
-  given!(:question) { create (:question) }
-  # given!(:answer) { create(:answer, question: question, author: user) }
+  given!(:question) { create(:question) }
   given(:gist_url) { 'https://gist.github.com/ekateriniy/2368cfd40e09b995b6be0acc16fe1ffb' }
 
 
   background { sign_in(user) }
 
-  scenario 'User adds links when giving an answer', js: true do
-    visit question_path(question)
+  describe 'User adds links when giving an answer' do
+    background do
+      visit question_path(question)
 
-    fill_in 'Body', with: 'Test`s body'
-    fill_in 'Link name', with: 'My gist'
-    click_on 'add link'
+      fill_in 'Body', with: 'Test`s body'
+      fill_in 'Link name', with: 'My gist'
+    end
 
-    page.all('.nested-fields').each do |field|
-      within(field) do
-        fill_in 'Link name', with: 'My gist'
-        fill_in 'Url', with: gist_url
+    scenario 'with valid url', js: true do
+      click_on 'add link'
+
+      page.all('.nested-fields').each do |field|
+        within(field) do
+          fill_in 'Link name', with: 'My gist'
+          fill_in 'Url', with: gist_url
+        end
+      end
+      
+      click_on 'Post answer'
+
+      within('.answers') do
+        expect(page).to have_link 'My gist', href: gist_url, count: 2
       end
     end
-    
-    click_on 'Post answer'
 
-    within('.answers') do
-      expect(page).to have_link 'My gist', href: gist_url, count: 2
+    scenario 'with errors', js: true do
+      within('.new-answer') do
+        fill_in 'Link name', with: 'My gist'
+        fill_in 'Url', with: 'plain text'
+        
+        click_on 'Post answer'
+      end
+
+      expect(page).to have_content 'Links invalid url must have url format'
+      expect('.answers').to_not have_content 'My gist'
     end
   end
 
-  scenario 'User adds link when editing the answer', js: true do
-    create(:answer, question: question, author: user)
-    visit question_path(question)
+  describe 'User adds link when editing the answer' do
+    background do
+      create(:answer, question: question, author: user)
+      visit question_path(question)
 
-    within('.answers') do
-      click_on 'Edit'
-      click_on 'add link'
+      within('.answers') do
+        click_on 'Edit'
+        click_on 'add link'
 
-      fill_in 'Link name', with: 'My gist'
-      fill_in 'Url', with: gist_url
-      
-      click_on 'Save'
+        fill_in 'Link name', with: 'My gist'
+      end
     end
 
-    expect(page).to have_link 'My gist', href: gist_url
+    scenario 'with valid url', js: true do
+      within('.answers') do
+        fill_in 'Url', with: gist_url
+        
+        click_on 'Save'
+      end
+
+      expect(page).to have_link 'My gist', href: gist_url
+    end
+
+    scenario 'with errors', js: true do
+      within('.answers') do
+        fill_in 'Url', with: 'plain text'
+        
+        click_on 'Save'
+      end
+
+      expect(page).to have_content 'Links invalid url must have url format'
+      expect('.answers').to_not have_content 'My gist'
+    end
   end
 end
