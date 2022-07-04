@@ -3,7 +3,7 @@ div id="answer-body-#{answer.id}"
     = render 'shared/errors', resource: @answer
 
   = answer.body
-  .answer-links
+  div id="answer-links-#{answer.id}"
     = render 'links/list', resource: answer
 
   div id="answer-atached-#{answer.id}"

@@ -4,6 +4,7 @@ $('.answer-errors-<%= @answer.id %>').html('<%= render 'shared/errors', resource
   $('#answer-body-<%= @answer.id %>').html('<%= j render partial: "answer", locals: { answer: @answer } %>');
 
   $('#answer-atached-<%= @answer.id %>').empty()
+  $('.nested-fields').find('input:text').val('')
   <% @answer.files.each do |file| %>
     $(' <%= link_to active_storage_attachment_path(file), class: "hide delete-answer-atached-#{@answer.id}", method: :delete, local: false, remote: true do; octicon 'x'; end %>  ').appendTo('#answer-atached-<%= @answer.id %>')
 

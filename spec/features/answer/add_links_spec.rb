@@ -7,7 +7,7 @@ feature 'User can add links to answer', %q{
 } do
   given(:user) { create(:user) }
   given!(:question) { create(:question) }
-  given(:gist_url) { 'https://gist.github.com/ekateriniy/2368cfd40e09b995b6be0acc16fe1ffb' }
+  given(:link_url) { 'https://github.com' }
 
 
   background { sign_in(user) }
@@ -17,7 +17,7 @@ feature 'User can add links to answer', %q{
       visit question_path(question)
 
       fill_in 'Body', with: 'Test`s body'
-      fill_in 'Link name', with: 'My gist'
+      fill_in 'Link name', with: 'My link'
     end
 
     scenario 'with valid url', js: true do
@@ -25,28 +25,28 @@ feature 'User can add links to answer', %q{
 
       page.all('.nested-fields').each do |field|
         within(field) do
-          fill_in 'Link name', with: 'My gist'
-          fill_in 'Url', with: gist_url
+          fill_in 'Link name', with: 'My link'
+          fill_in 'Url', with: link_url
         end
       end
       
       click_on 'Post answer'
 
       within('.answers') do
-        expect(page).to have_link 'My gist', href: gist_url, count: 2
+        expect(page).to have_link 'My link', href: link_url, count: 2
       end
     end
 
     scenario 'with errors', js: true do
       within('.new-answer') do
-        fill_in 'Link name', with: 'My gist'
+        fill_in 'Link name', with: 'My link'
         fill_in 'Url', with: 'plain text'
         
         click_on 'Post answer'
       end
 
       expect(page).to have_content 'Links invalid url must have url format'
-      expect('.answers').to_not have_content 'My gist'
+      expect('.answers').to_not have_content 'My link'
     end
   end
 
@@ -59,18 +59,18 @@ feature 'User can add links to answer', %q{
         click_on 'Edit'
         click_on 'add link'
 
-        fill_in 'Link name', with: 'My gist'
+        fill_in 'Link name', with: 'My link'
       end
     end
 
     scenario 'with valid url', js: true do
       within('.answers') do
-        fill_in 'Url', with: gist_url
+        fill_in 'Url', with: link_url
         
         click_on 'Save'
       end
 
-      expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_link 'My link', href: link_url
     end
 
     scenario 'with errors', js: true do
@@ -81,7 +81,7 @@ feature 'User can add links to answer', %q{
       end
 
       expect(page).to have_content 'Links invalid url must have url format'
-      expect('.answers').to_not have_content 'My gist'
+      expect('.answers').to_not have_content 'My link'
     end
   end
 end

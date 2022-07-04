@@ -6,7 +6,7 @@ feature 'User can add links to question', %q{
   I'd like to be able to add links
 } do
   given(:user) { create(:user) }
-  given(:gist_url) { 'https://gist.github.com/ekateriniy/2368cfd40e09b995b6be0acc16fe1ffb' }
+  given(:link_url) { 'https://github.com' }
 
   background { sign_in(user) }
 
@@ -22,17 +22,17 @@ feature 'User can add links to question', %q{
 
       page.all('.nested-fields').each do |field|
         within(field) do
-          fill_in 'Link name', with: 'My gist'
-          fill_in 'Url', with: gist_url
+          fill_in 'Link name', with: 'My link'
+          fill_in 'Url', with: link_url
         end
       end
       
       click_on 'Ask'
-      expect(page).to have_link 'My gist', href: gist_url, count: 2
+      expect(page).to have_link 'My link', href: link_url, count: 2
     end
 
     scenario 'with errors' do
-      fill_in 'Link name', with: 'My gist'
+      fill_in 'Link name', with: 'My link'
       fill_in 'Url', with: 'plain text'
       
       click_on 'Ask'
@@ -49,18 +49,18 @@ feature 'User can add links to question', %q{
       within('.question') do
         click_on 'Edit'
         click_on 'add link'
-        fill_in 'Link name', with: 'My gist'
+        fill_in 'Link name', with: 'My link'
       end
     end
 
     scenario 'with valid url', js: true do
       within('.question') do
-        fill_in 'Url', with: gist_url
+        fill_in 'Url', with: link_url
         
         click_on 'Save'
       end
 
-      expect(page).to have_link 'My gist', href: gist_url
+      expect(page).to have_link 'My link', href: link_url
     end
 
     scenario 'with errors', js: true do

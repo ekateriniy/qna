@@ -9,4 +9,8 @@ class Link < ApplicationRecord
       errors.add(:invalid_url, 'must have url format')
     end
   end
+
+  def gist?
+    url =~ /gist.github.com/
+  end
 end
