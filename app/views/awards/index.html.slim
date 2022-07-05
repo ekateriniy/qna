@@ -1,0 +1,11 @@
+h4 My awards
+- @awards.each do |award|
+  table class="table mt-4"
+    tr
+      th scope="col" Question
+      th scope="col" Award
+      th scope="col" Award title
+    tr
+      td class="align-middle"= award.question.title
+      td class="align-middle"= image_tag(award.file, size: '100')
+      td class="align-middle"= award.title

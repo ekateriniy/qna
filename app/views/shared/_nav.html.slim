@@ -3,6 +3,8 @@ nav class="navbar navbar-light bg-light"
     = link_to 'QnA', root_path, class: 'navbar-brand'
     span class="navbar-text justify-content-end"
       - if user_signed_in?
+        = link_to 'My awards', user_awards_path(current_user)
+        = ' | '
         = link_to 'Sign out', destroy_user_session_path, method: :delete
       - else
         = link_to 'Sign up', new_user_registration_path
