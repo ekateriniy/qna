@@ -20,7 +20,7 @@ feature 'User can add links to question', %q{
     scenario 'with valid url', js: true do
       click_on 'add link'
 
-      page.all('.nested-fields').each do |field|
+      find('#links').all('.nested-fields').each do |field|
         within(field) do
           fill_in 'Link name', with: 'My link'
           fill_in 'Url', with: link_url

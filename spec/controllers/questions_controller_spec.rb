@@ -105,17 +105,19 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'PATCH #update_best_answer' do
     before { login(user) }
     let!(:question) { create(:question, author: user) }
-    let!(:answers) { create_list(:answer, 2, question: question) }
+    let!(:answer) { create(:answer, question: question) }
+    let!(:award) {create(:award, question: question)}
 
     it 'updates question best answer' do
-      patch :update_best_answer, params: { id: question, answer_id: answers[0] }, format: :js
-
+      patch :update_best_answer, params: { id: question, answer_id: answer }, format: :js
+ 
         question.reload
-        expect(question.best_answer).to eq answers[0]
+        expect(question.award.user).to eq question.best_answer.author
+        expect(question.best_answer).to eq answer
     end
 
     it 'renders update_best_answer view' do
-      patch :update_best_answer, params: { id: question, answer_id: answers[0] }, format: :js
+      patch :update_best_answer, params: { id: question, answer_id: answer }, format: :js
 
       expect(response).to render_template :update_best_answer
     end
