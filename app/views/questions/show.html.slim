@@ -3,9 +3,12 @@
 .question
   .question-error
   = render 'shared/errors', resource: question
-
+  
   h1 id="question-title"= question.title
   p id="question-body"= question.body
+  #question-links
+    = render 'links/list', resource: question
+
   div id="question-atached"
     - if question.files.attached?
       - question.files.each do |file|
@@ -14,6 +17,7 @@
               = octicon 'x' 
             = ' '
             = link_to file.filename.to_s, url_for(file)
+
   br
   - if current_user&.owner?(question)
     = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
@@ -28,10 +32,16 @@
         = f.label :files
         br
         = f.file_field :files, multiple: true, direct_upload: true
-        br
+        p Links:
+        #links
+          = f.fields_for :links do |link|
+            = render 'links/link_fields', f: link
+          .links
+            = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
         = f.submit 'Save'
     = ' | '
     = link_to 'Delete', question_path(question), method: :delete
+h4 Answers
 br
 .best-answer style="background-color:AliceBlue;"
   = render 'answers/best_answer', resource: @best_answer if @best_answer

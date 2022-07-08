@@ -1,17 +1,28 @@
 = render 'shared/errors', resource: question
 
-= form_with model: question, local: false do |f|
-  div.field
-    = f.label :title
-    br
-    = f.text_field :title
-  div.field
-    = f.label :body
-    br
-    = f.text_area :body
-  div.field
-    = f.label :files
-    br
-    = f.file_field :files, multiple: true, direct_upload: true
-  div.actions
-    = f.submit 'Ask'
+= form_with model: question do |f|
+  .new-question-form
+    div.field
+      = f.label :title
+      br
+      = f.text_field :title
+    div.field
+      = f.label :body
+      br
+      = f.text_area :body
+    div.field
+      = f.label :files
+      br
+      = f.file_field :files, multiple: true, direct_upload: true
+
+  p Links:
+  #links
+    = f.fields_for :links do |link|
+      = render 'links/link_fields', f: link
+    .links
+      = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
+  br Award to the best answer (optional):
+  #award
+    = f.fields_for :award do |award_fields|
+      = render 'awards/award_fields', f: award_fields
+  = f.submit 'Ask'

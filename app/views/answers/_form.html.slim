@@ -11,5 +11,12 @@ h4 Your answer
     = f.label :files
     br
     = f.file_field :files, multiple: true, direct_upload: true
+    br
+  p Links:
+  #links
+  = f.fields_for :links, answer.links.new, local: false do |link|
+    = render 'links/link_fields', f: link
+  .links
+    = link_to_add_association 'add link', f, :links, partial: 'links/link_fields'
   div.actions
     = f.submit 'Post answer'

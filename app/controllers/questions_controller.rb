@@ -6,15 +6,18 @@ class QuestionsController < ApplicationController
   end
 
   def show
-    if @best_answer
-      @best_answer = question.best_answer&.with_attached_files
+    if question.best_answer
+      @best_answer = question.best_answer
       @answers = question.answers.where.not(id: question.best_answer.id)&.with_attached_files
     else
       @answers = question.answers&.with_attached_files
     end
   end
 
-  def new; end
+  def new
+    question.links.new
+    question.build_award
+  end
 
   def edit; end
 
@@ -41,18 +44,24 @@ class QuestionsController < ApplicationController
   def update_best_answer
     question.set_best_answer(params[:answer_id])
     @best_answer = question.best_answer
+
+    question.award.give_out_to(@best_answer.author) if question.award.present?
     @answers = question.answers.where.not(id: question.best_answer_id)
   end
 
   private
 
-  helper_method :question
+  helper_method :question, :answer
 
   def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
+  def answer
+    @answer ||= params[:answer_id] ? Answer.with_attached_files.find(params[:answer_id]) : Answer.new
+  end
+
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [], links_attributes: [:id, :name, :url, :_destroy], award_attributes: [:id, :title, :file])
   end
 end
