@@ -17,14 +17,16 @@ feature 'User can add links to answer', %q{
       visit question_path(question)
 
       fill_in 'Body', with: 'Test`s body'
-      fill_in 'Link name', with: 'My link'
     end
 
     scenario 'with valid url', js: true do
+      fill_in 'Link name', with: 'My link'
+      fill_in 'Url', with: link_url
       click_on 'add link'
 
       page.all('.nested-fields').each do |field|
         within(field) do
+
           fill_in 'Link name', with: 'My link'
           fill_in 'Url', with: link_url
         end
