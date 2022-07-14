@@ -46,4 +46,6 @@ div id="answer-body-#{@best_answer.id}"
       = f.submit 'Save'
     = ' | '
     = link_to 'Delete', answer_path(@best_answer), method: :delete, local: false, remote: true, class: 'delete-answer-link', data: { answer_id: @best_answer.id }
+  - else
+    = render 'votes/vote', resource: @best_answer
 br

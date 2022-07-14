@@ -41,6 +41,8 @@
         = f.submit 'Save'
     = ' | '
     = link_to 'Delete', question_path(question), method: :delete
+  - else
+    = render 'votes/vote', resource: question
 h4 Answers
 br
 .best-answer style="background-color:AliceBlue;"

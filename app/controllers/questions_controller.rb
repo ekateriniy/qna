@@ -1,5 +1,7 @@
 class QuestionsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show]
+  include Voted
+  
+  before_action :authenticate_user!, only: %i[new edit create update destroy update_best_answer]
 
   def index
     @questions = Question.all
