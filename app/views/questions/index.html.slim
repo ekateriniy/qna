@@ -7,3 +7,6 @@ p= link_to 'Ask question', new_question_path
         = link_to question.title, question_path(question)
     tr
       td= question.body
+    tr
+      - unless current_user&.owner?(question)
+        = render 'votes/vote', resource: question
