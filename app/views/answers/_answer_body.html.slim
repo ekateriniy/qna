@@ -1,0 +1,16 @@
+  div class='answer-errors-#{answer.id}'
+    = render 'shared/errors', resource: @answer
+
+  = answer.body
+  div id="answer-links-#{answer.id}"
+    = render 'links/list', resource: answer
+
+  div id="answer-atached-#{answer.id}"
+    - if answer.files.attached?
+      - answer.files.each do |file|
+        div id="attachment-#{file.id}"
+          = link_to active_storage_attachment_path(file), class: "hide delete-answer-atached-#{answer.id}", method: :delete, local: false, remote: :true do
+            = octicon 'x'
+          = ' '
+          = link_to file.filename.to_s, url_for(file)
+      br

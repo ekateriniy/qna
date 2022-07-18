@@ -1,20 +1,21 @@
 div id="answer-body-#{answer.id}"
-  div class='answer-errors-#{answer.id}'
-    = render 'shared/errors', resource: @answer
+  = render 'answers/answer_body', answer: answer
+  / div class='answer-errors-#{answer.id}'
+  /   = render 'shared/errors', resource: @answer
 
-  = answer.body
-  div id="answer-links-#{answer.id}"
-    = render 'links/list', resource: answer
+  / = answer.body
+  / div id="answer-links-#{answer.id}"
+  /   = render 'links/list', resource: answer
 
-  div id="answer-atached-#{answer.id}"
-    - if answer.files.attached?
-      - answer.files.each do |file|
-        div id="attachment-#{file.id}"
-          = link_to active_storage_attachment_path(file), class: "hide delete-answer-atached-#{answer.id}", method: :delete, local: false, remote: :true do
-            = octicon 'x'
-          = ' '
-          = link_to file.filename.to_s, url_for(file)
-      br
+  / div id="answer-atached-#{answer.id}"
+  /   - if answer.files.attached?
+  /     - answer.files.each do |file|
+  /       div id="attachment-#{file.id}"
+  /         = link_to active_storage_attachment_path(file), class: "hide delete-answer-atached-#{answer.id}", method: :delete, local: false, remote: :true do
+  /           = octicon 'x'
+  /         = ' '
+  /         = link_to file.filename.to_s, url_for(file)
+  /     br
   .actions
     - if current_user&.owner?(question)
       = link_to 'Best answer', update_best_answer_question_path(question, answer_id: answer.id), class: 'best-answer-link', answer_id: answer.id, local: false, method: :patch, action: :update_best_answer, remote: true

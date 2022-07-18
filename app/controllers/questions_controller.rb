@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
   end
 
   def show
+    gon.question_id = question.id
     if question.best_answer
       @best_answer = question.best_answer
       @answers = question.answers.where.not(id: question.best_answer.id)&.with_attached_files

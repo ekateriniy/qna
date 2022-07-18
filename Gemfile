@@ -29,7 +29,6 @@ gem 'bootstrap', '~> 5.1.3'
 gem 'jquery-rails'
 gem 'octicons_helper'
 gem 'gon'
-gem 'skim'
 
 # Works with nested forms
 gem "cocoon"
