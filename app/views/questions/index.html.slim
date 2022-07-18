@@ -1,12 +1,4 @@
 h2 All questions
 p= link_to 'Ask question', new_question_path
-- @questions.each do |question|
-  table
-    tr
-      td class="h4"
-        = link_to question.title, question_path(question)
-    tr
-      td= question.body
-    tr
-      - unless current_user&.owner?(question)
-        = render 'votes/vote', resource: question
+.questions-list
+  = render @questions

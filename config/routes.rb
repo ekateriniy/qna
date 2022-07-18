@@ -26,4 +26,6 @@ Rails.application.routes.draw do
   namespace :active_storage do
     resources :attachments, only: [:destroy]
   end
+  
+  mount ActionCable.server => '/cable'
 end
