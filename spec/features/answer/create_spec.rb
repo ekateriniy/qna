@@ -16,7 +16,7 @@ feature 'User can create answer', %q{
     end
 
     scenario 'answer the question', js: true do
-      fill_in 'Body', with: 'Answer body'
+      fill_in 'answer_body', with: 'Answer body'
       click_on 'Post answer'
 
       expect(page).to have_content question.title
@@ -25,7 +25,7 @@ feature 'User can create answer', %q{
     end
 
     scenario 'answer the question with attached file', js: true do
-      fill_in 'Body', with: 'Answer body'
+      fill_in 'answer_body', with: 'Answer body'
 
       attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"], multiple: true
 
@@ -54,7 +54,7 @@ feature 'User can create answer', %q{
       end
 
       Capybara.using_session('user') do
-        fill_in 'Body', with: 'Answer body'
+        fill_in 'answer_body', with: 'Answer body'
         click_on 'Post answer'
 
         expect(page).to have_content 'Answer body'

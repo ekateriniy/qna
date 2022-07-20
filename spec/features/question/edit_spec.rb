@@ -27,13 +27,13 @@ feature 'User can edit his question', %q{
       sign_in(user)
       visit question_path(question)
 
-      click_on 'Edit'
+      find('.edit-question-link').click
     end
 
     scenario 'tries to edit his question', js: true do
       within '.question' do
-        fill_in 'Title', with: 'edited title'
-        fill_in 'Body', with: 'edited body'
+        fill_in 'question_title', with: 'edited title'
+        fill_in 'question_body', with: 'edited body'
         attach_file 'Files', ["#{Rails.root}/README.md", "#{Rails.root}/spec/spec_helper.rb"], multiple: true
         find('.octicon').click
 
@@ -47,13 +47,12 @@ feature 'User can edit his question', %q{
       expect(page).to have_content 'edited body'
       expect(page).to have_link 'spec_helper.rb'
       expect(page).to have_link 'README.md'
-      expect(find('.question')).to_not have_selector 'textarea'
     end
 
     scenario 'tries to edit his question with errors', js: true do
       within '.question' do
-        fill_in 'Title', with: ''
-        fill_in 'Body', with: ''
+        fill_in 'question_title', with: ''
+        fill_in 'question_body', with: ''
         click_on 'Save'
 
         expect(page).to have_content question.title

@@ -16,7 +16,7 @@ feature 'User can add links to answer', %q{
     background do
       visit question_path(question)
 
-      fill_in 'Body', with: 'Test`s body'
+      fill_in 'answer_body', with: 'Test`s body'
     end
 
     scenario 'with valid url', js: true do
