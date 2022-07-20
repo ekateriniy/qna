@@ -1,5 +1,6 @@
 class QuestionsController < ApplicationController
   include Voted
+  include Commented
   
   before_action :authenticate_user!, only: %i[new edit create update destroy update_best_answer]
   after_action :publish_question, only: [:create]

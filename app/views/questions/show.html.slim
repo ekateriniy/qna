@@ -1,8 +1,8 @@
 = link_to 'Back to all questions', questions_path
 
 .question
-  .question-error
-  = render 'shared/errors', resource: question
+  div class="question-errors"
+    = render 'shared/errors', resource: question
   
   h1 id="question-title"= question.title
   p id="question-body"= question.body
@@ -43,6 +43,13 @@
     = link_to 'Delete', question_path(question), method: :delete
   - else
     = render 'votes/vote', resource: question
+  div class="question-id-#{question.id}-comments card mb-4 card-body"
+    h6= 'Comments:'
+    .comments-list
+      = render question.comments, resource: question
+    - if signed_in?
+      p= 'Leave a comment'
+      = render 'comments/comment_question_form'
 h4 Answers
 br
 .best-answer style="background-color:AliceBlue;"

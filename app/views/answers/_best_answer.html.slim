@@ -48,4 +48,11 @@ div id="answer-body-#{@best_answer.id}"
     = link_to 'Delete', answer_path(@best_answer), method: :delete, local: false, remote: true, class: 'delete-answer-link', data: { answer_id: @best_answer.id }
   - else
     = render 'votes/vote', resource: @best_answer
-br
+  br
+  div class="answer-id-#{@best_answer.id}-comments card mb-4 card-body"
+    h6= 'Comments:'
+    .comments-list
+      = render @best_answer.comments
+    - if signed_in?
+      p= 'Leave a comment'
+      = render 'comments/comment_answer_form', answer: @best_answer
