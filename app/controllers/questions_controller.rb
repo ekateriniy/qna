@@ -1,13 +1,16 @@
 class QuestionsController < ApplicationController
   include Voted
+  include Commented
   
   before_action :authenticate_user!, only: %i[new edit create update destroy update_best_answer]
+  after_action :publish_question, only: [:create]
 
   def index
     @questions = Question.all
   end
 
   def show
+    gon.question_id = question.id
     if question.best_answer
       @best_answer = question.best_answer
       @answers = question.answers.where.not(id: question.best_answer.id)&.with_attached_files
@@ -65,5 +68,14 @@ class QuestionsController < ApplicationController
 
   def question_params
     params.require(:question).permit(:title, :body, files: [], links_attributes: [:id, :name, :url, :_destroy], award_attributes: [:id, :title, :file])
+  end
+
+  def publish_question
+    return if question.errors.any?
+
+    ActionCable.server.broadcast 'questions', ApplicationController.render(
+      partial: 'questions/question',
+      locals: { question: question }
+      )
   end
 end

@@ -1,4 +1,4 @@
-$('.question-error').html('<%= render 'shared/errors', resource: @question %>');
+$('.question-errors').html('<%= render 'shared/errors', resource: @question %>');
 
 <% if @question.errors.present? %>
   $('form#edit-question').removeClass('hide');

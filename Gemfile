@@ -24,10 +24,11 @@ gem 'jbuilder', '~> 2.7'
 
 gem 'dotenv-rails'
 
-# UI
+# UI and front-end
 gem 'bootstrap', '~> 5.1.3'
 gem 'jquery-rails'
 gem 'octicons_helper'
+gem 'gon'
 
 # Works with nested forms
 gem "cocoon"
