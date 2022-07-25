@@ -49,6 +49,9 @@ gem 'slim-rails'
 
 # authentication
 gem 'devise'
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth'
+gem 'omniauth-github'
 
 # to work with google storage
 gem 'google-cloud-storage'

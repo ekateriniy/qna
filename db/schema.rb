@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_19_023159) do
+ActiveRecord::Schema.define(version: 2022_07_21_111115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,16 @@ ActiveRecord::Schema.define(version: 2022_07_19_023159) do
     t.integer "votes_count", default: 0
     t.index ["author_id"], name: "index_answers_on_author_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
+  create_table "authorisations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["provider", "uid"], name: "index_authorisations_on_provider_and_uid"
+    t.index ["user_id"], name: "index_authorisations_on_user_id"
   end
 
   create_table "awards", force: :cascade do |t|
@@ -124,6 +134,7 @@ ActiveRecord::Schema.define(version: 2022_07_19_023159) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "questions"
   add_foreign_key "answers", "users", column: "author_id"
+  add_foreign_key "authorisations", "users"
   add_foreign_key "awards", "questions"
   add_foreign_key "awards", "users"
   add_foreign_key "comments", "users"
