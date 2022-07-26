@@ -27,11 +27,10 @@ feature 'User can edit his answer', %q{
     background do
       sign_in(user)
       visit question_path(question)
-
-      find('.edit-answer-link').click
     end
 
     scenario 'edits his answer' do
+      find('.edit-answer-link').click
       within '.answers' do
         fill_in 'answer_body', with: 'edited answer'
         attach_file 'Files', ["#{Rails.root}/README.md", "#{Rails.root}/spec/spec_helper.rb"], multiple: true
@@ -48,6 +47,7 @@ feature 'User can edit his answer', %q{
     end
 
     scenario 'edits his answer with errors' do
+      find('.edit-answer-link').click
       within '.answers' do
         fill_in 'answer_body', with: ''
         click_on 'Save'
