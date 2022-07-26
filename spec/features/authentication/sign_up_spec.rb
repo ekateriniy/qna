@@ -15,7 +15,7 @@ feature 'Unauthenticated user can sign up', %q{
       fill_in 'Password confirmation', with: '1234567890'
 
       click_button 'Sign up'
-      expect(page).to have_content 'signed up successfully.'
+      expect(page).to have_content 'A message with a confirmation link has been sent to your email'
     end
 
     scenario 'tries to sign up with errors' do
