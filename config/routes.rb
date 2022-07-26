@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     resources :awards, only: :index
   end
 
+  resources :accounts, only: [:create]
+
   resources :questions do
     patch :update_best_answer, on: :member
     concerns [:votable, :commentable]
