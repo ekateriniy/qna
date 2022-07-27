@@ -49,6 +49,10 @@ gem 'slim-rails'
 
 # authentication
 gem 'devise'
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-twitter'
 
 # to work with google storage
 gem 'google-cloud-storage'
@@ -80,6 +84,7 @@ group :test do
   gem 'webdrivers'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'launchy'
+  gem 'capybara-email'
   gem 'database_cleaner-active_record'
 end
 

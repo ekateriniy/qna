@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
+
   root to: 'questions#index'
 
   concern :votable do
@@ -19,6 +20,8 @@ Rails.application.routes.draw do
   resources :users do
     resources :awards, only: :index
   end
+
+  resources :accounts, only: [:create]
 
   resources :questions do
     patch :update_best_answer, on: :member
