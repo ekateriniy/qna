@@ -19,7 +19,7 @@
             = link_to file.filename.to_s, url_for(file)
 
   br
-  - if current_user&.owner?(question)
+  - if can? :edit, question
     = link_to 'Edit', '#', class: 'edit-question-link', data: { question_id: question.id }
     = form_with model: question, class: 'hide', local: false, html: { id: "edit-question" } do |f|
         = f.label :title
@@ -56,4 +56,5 @@ br
   = render 'answers/best_answer', resource: @best_answer if @best_answer
 .answers  
   = render partial: 'answers/answer', collection: @answers
-= render 'answers/form'
+- if can? :create, Answer
+  = render 'answers/form'

@@ -3,6 +3,7 @@ class AnswersController < ApplicationController
   include Commented
   
   before_action :authenticate_user!, only: [:create, :destroy]
+  authorize_resource
 
   def create
     @answer = question.answers.new(answer_params)

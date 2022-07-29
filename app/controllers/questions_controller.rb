@@ -3,6 +3,7 @@ class QuestionsController < ApplicationController
   include Commented
   
   before_action :authenticate_user!, only: %i[new edit create update destroy update_best_answer]
+  authorize_resource
   after_action :publish_question, only: [:create]
 
   def index
