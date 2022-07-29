@@ -53,6 +53,7 @@ gem 'omniauth-rails_csrf_protection'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-twitter'
+gem 'cancancan'
 
 # to work with google storage
 gem 'google-cloud-storage'

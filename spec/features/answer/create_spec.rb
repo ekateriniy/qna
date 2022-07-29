@@ -68,8 +68,7 @@ feature 'User can create answer', %q{
 
   scenario 'Unauthenticated user tries answer the question' do
     visit question_path(question)
-    click_on 'Post answer'
     
-    expect(page).to have_content 'You need to sign in or sign up before continuing.'
+    expect(page).to_not have_content 'Post answer'
   end
 end

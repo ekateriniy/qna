@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_21_111115) do
+ActiveRecord::Schema.define(version: 2022_07_27_115357) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,13 +76,13 @@ ActiveRecord::Schema.define(version: 2022_07_21_111115) do
 
   create_table "comments", force: :cascade do |t|
     t.text "body", null: false
-    t.bigint "user_id", null: false
+    t.bigint "author_id", null: false
     t.string "commentable_type"
     t.bigint "commentable_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
-    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "links", force: :cascade do |t|
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 2022_07_21_111115) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.boolean "admin"
   end
 
   create_table "votes", force: :cascade do |t|
@@ -139,7 +140,7 @@ ActiveRecord::Schema.define(version: 2022_07_21_111115) do
   add_foreign_key "authorisations", "users"
   add_foreign_key "awards", "questions"
   add_foreign_key "awards", "users"
-  add_foreign_key "comments", "users"
+  add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "questions", "answers", column: "best_answer_id"
   add_foreign_key "questions", "users", column: "author_id"
   add_foreign_key "votes", "users"

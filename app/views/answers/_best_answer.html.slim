@@ -22,7 +22,7 @@ div id="answer-body-#{@best_answer.id}"
             = ' '
             = link_to file.filename.to_s, url_for(file)
   br
-  - if current_user&.owner?(@best_answer)
+  - if can? :edit, @best_answer
     = link_to 'Edit', '#', class: 'edit-answer-link', data: { answer_id: @best_answer.id }
     = form_with model: @best_answer, class: 'hide', local: false, html: { id: "edit-answer-#{@best_answer.id}" } do |f|
       = f.label :body

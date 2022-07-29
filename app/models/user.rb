@@ -27,6 +27,6 @@ class User < ApplicationRecord
   end
 
   def owner?(object)
-    self == object.author
+    self.id == object.author_id
   end
 end
